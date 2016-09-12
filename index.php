@@ -21,6 +21,7 @@
         echo $Cadastra->getMsg();
       else:
           echo $Cadastra->getMsg();
+          
       endif;
 
     endif;
@@ -31,6 +32,8 @@
     $read->ExeRead('jg_form',"WHERE id > :id LIMIT :limit",'id=0&limit=5');
 
     var_dump($read);
+
+    echo 'eae';
 
 
 
