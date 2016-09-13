@@ -12,7 +12,7 @@ class Create extends Conn
 
   private $Conn;
 
-  public function ExeCreate(string $Tabela, array $Dados)
+  public function ExeCreate($Tabela, array $Dados)
   {
     $this->Tabela = (string) $Tabela;
     $this->Dados = $Dados;

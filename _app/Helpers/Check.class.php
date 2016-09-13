@@ -40,6 +40,17 @@ class Check
 
   }
 
+  public static function TraduzData($Data)
+  {
+      self::$Data = $Data;
+      self::$Format = explode('-', self::$Data);
+      self::$Data = self::$Format[2] . "/" . self::$Format[1] . "/" . self::$Format[0] ;
+
+      return self::$Data;
+
+
+  }
+
 
 
   }

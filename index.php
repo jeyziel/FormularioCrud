@@ -10,6 +10,7 @@
     require('_app/config.inc.php');
 
     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+    var_dump($data);
 
 
     if(!empty($data['sendForm'])):
@@ -26,14 +27,20 @@
 
     endif;
 
-      //var_dump($data);
+
+
 
     $read = new Read;
-    $read->ExeRead('jg_form',"WHERE id > :id LIMIT :limit",'id=0&limit=5');
+    $read->ExeRead('jg_form',"WHERE id > :id LIMIT :limit",'id=0&&limit=5');
+
+
 
     var_dump($read);
 
-    echo 'eae';
+
+
+
+
 
 
 
@@ -71,16 +78,21 @@
          <th>Açoes</th>
        </tr>
 
-       <tr>
-         <td>Nome</td>
-         <td>EMAIL</td>
-         <td>DATA</td>
-         <td>
-           <a href="editar.php">Editar</a>
-           <a href="deletar.php">Remover</a>
-         </td>
+       <?php foreach($read->getResult() as $Form): ?>
+           <tr>
+             <td><?= $Form['name']; ?></td>
+             <td><?= $Form['email']; ?></td>
+             <td><?= Check::TraduzData($Form['date']); ?></td>
+             <td>
+               <a href="editar.php?id=<?= $Form['id'] ?>">Editar</a>
+               <a href="deletar.php">Remover</a>
+             </td>
 
-       </tr>
+
+
+           </tr>
+
+       <?php endforeach; ?>
 
      </table>
 

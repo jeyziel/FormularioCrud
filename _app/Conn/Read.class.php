@@ -6,23 +6,37 @@ class Read extends Conn
 	private $Read;
     private $Select;
 	private $Places;
-	private $Tabela;
+    private $Result;
 
     /** @var  PDO */
 	private $Conn;
-	
-	
+
+
 	public function ExeRead($Tabela,$Termos = null, $ParseString = null)
 	{
-		$this->Tabela = $Tabela;
+
 		if(!empty($ParseString)):
 			parse_str($ParseString, $this->Places);
 		endif;
-		
+
 		$this->Select = "SELECT * FROM {$Tabela} {$Termos}";
-		
-		
+        $this->Execute();
+
 	}
+
+	public function getResult()
+    {
+        return $this->Result;
+
+    }
+
+    public function getRowCount()
+    {
+        return $this->Read->RowCount();
+    }
+
+
+
 
 
 	//Obtem pdo e prepara a query
@@ -35,25 +49,34 @@ class Read extends Conn
 
 
 
-	
+
+
 	//cria a sintaxe da query para prepared statements
-	private function getSyntax()
-	{
-		if($this->Places):
-			foreach($this->Places as $Vinculo => $Valor):
-                $this->Read->bindValue(":{$Vinculo}", $Valor, (is_int($Valor)));
-			endforeach;
-		endif;
-	}
+    private function getSyntax()
+    {
+        if ($this->Places):
+            foreach ($this->Places as $Vinculo => $Valor):
+                if ($Vinculo == 'limit' || $Vinculo == 'offset'):
+                    $Valor = (int) $Valor;
+                endif;
+                $this->Read->bindValue(":{$Vinculo}", $Valor, ( is_int($Valor) ? PDO::PARAM_INT : PDO::PARAM_STR));
+            endforeach;
+        endif;
+    }
 
 
 	private function Execute()
     {
         $this->Connect();
         try{
-            
+            $this->getSyntax();
+            $this->Read->execute();
+            $this->Result = $this->Read->Fetchall();
+
         }catch(PDOException $e){
-            
+            $this->Result =  null;
+            echo "erro ao ler as informações do bando {$e->getMessage()}";
+
         }
 
     }
@@ -61,15 +84,15 @@ class Read extends Conn
 
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
 }
