@@ -27,7 +27,24 @@
             die;
         endif;
 
-        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+       $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+       if(!empty($data['sendForm'])):
+           unset($data['sendForm']);
+           $Update = new SendPost;
+           $Update->ExeUpdate($data,$id);
+
+           if(!$Update->getResult()):
+               echo $Update->getMsg();
+           else:
+               echo $Update->getMsg();
+
+           endif;
+
+       endif;
+
+
+
 
 
 
@@ -36,7 +53,7 @@
     <form method="post">
         <label>
             <span>Nome</span>
-            <input type="text" name="name" value="<?= (isset($data) ? $data['name'] : $nome);?>" />
+            <input type="text" name="name" value="<?= (isset($data) ? $data['name'] :$nome);?>" />
         </label>
 
         <label>
@@ -47,16 +64,11 @@
 
         <label>
             <span>Email</span>
-            <input type="text" name="date" value="<?= (isset($data) ? $data['date'] : $date);?>" />
+            <input type="text" name="date" value="<?= (isset($data) ? $data['date'] : Check::TraduzData($date));?>" />
         </label>
 
 
-        <input type="submit" name="sendFormulario" value="Enviar" />
-
-
-
-
-
+        <input type="submit" name="sendForm" value="Enviar" />
 
 
     </form>

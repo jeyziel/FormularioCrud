@@ -5,6 +5,7 @@ class SendPost
   private $Data;
   private $Msg;
   private $Result;
+  private $Id;
 
   const Entity = 'jg_form';
 
@@ -17,6 +18,16 @@ class SendPost
     if ($this->Result):
       $this->Create();
     endif;
+
+  }
+
+  public function ExeUpdate(array $Data, $id){
+      $this->Data = $Data;
+      $this->Id = (int) $id;
+      $this->CheckData();
+      if($this->Result):
+          $this->Update();
+      endif;
 
   }
 
@@ -68,6 +79,18 @@ class SendPost
             $this->Msg = "<p><b>Erro ao Cadastrar</b>Erro no sistema Volte mais Tarde</p>";
       endif;
   }
+
+  //atualiza o posto no banco
+   private function Update(){
+       $Update = new Update();
+       $Update->ExeUpdate(self::Entity,$this->Data,"WHERE id = :id","id={$this->Id}");
+       if($Update->getResult()):
+           $this->Msg = "<p><b>Editado com sucesso</b>A Tarefa {$this->Data['name']} foi Editada com sucesso</p>";
+       else:
+           $this->Msg = "<p><b>Erro ao Editar</b>Erro no sistema Volte mais Tarde</p>";
+       endif;
+
+   }
 
 
 

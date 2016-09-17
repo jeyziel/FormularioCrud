@@ -10,7 +10,7 @@
     require('_app/config.inc.php');
 
     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-    var_dump($data);
+//    var_dump($data);
 
 
     if(!empty($data['sendForm'])):
@@ -31,16 +31,8 @@
 
 
     $read = new Read;
-    $read->ExeRead('jg_form',"WHERE id > :id LIMIT :limit",'id=0&&limit=5');
-
-
-
-    var_dump($read);
-
-
-
-
-
+//    $read->ExeRead('jg_form',"WHERE id > :id LIMIT :limit",'id=0&&limit=5');
+    $read->ExeRead('jg_form');
 
 
 
