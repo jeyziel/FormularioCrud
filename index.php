@@ -22,11 +22,11 @@
         echo $Cadastra->getMsg();
       else:
           echo $Cadastra->getMsg();
+
           
       endif;
 
     endif;
-
 
 
 
@@ -76,8 +76,8 @@
              <td><?= $Form['email']; ?></td>
              <td><?= Check::TraduzData($Form['date']); ?></td>
              <td>
-               <a href="editar.php?id=<?= $Form['id'] ?>">Editar</a>
-               <a href="deletar.php">Remover</a>
+               <a  title="Editar" href="editar.php?id=<?= $Form['id']; ?>">Editar</a>
+               <a title="Remover" href="Remover.php?id=<?= $Form['id']; ?>">Remover</a>
              </td>
 
 

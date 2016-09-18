@@ -31,6 +31,27 @@ class SendPost
 
   }
 
+  public function ExeDelete($id){
+      $this->Id = (int) $id;
+      $read = new Read;
+      $read->ExeRead(self::Entity,"WHERE id = :id","id={$this->Id}");
+      if(!$read->getResult()):
+         $this->Msg = "<p>O post que você tentou deletar não existe no sistema!</p>";
+      else:
+          $this->Delete();
+          if($this->Result):
+             $this->Msg = "<p>Usuario {$read->getResult()[0]['name']} foi deletado com sucesso</p>";
+          else:
+             $this->Msg = "<p>Erro ao deletar o post volte mais tarde!!</p>";
+          endif;
+      endif;
+
+  }
+
+
+
+
+
   //retorna o resultado
   public function getResult()
   {
@@ -90,6 +111,16 @@ class SendPost
            $this->Msg = "<p><b>Erro ao Editar</b>Erro no sistema Volte mais Tarde</p>";
        endif;
 
+   }
+
+   private function Delete(){
+       $Delete = new Delete();
+       $Delete->ExeDelete(self::Entity,"Where id = :id","id={$this->Id}");
+       if($Delete->getResult()):
+          $this->Result = true;
+       else:
+           $this->Result = null;
+       endif;
    }
 
 
